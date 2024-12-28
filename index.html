@@ -1,523 +1,782 @@
+
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>其他网址收藏</title>
+    <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8，支持中文字符 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 确保页面在移动设备上适配 -->
+    <title>Kevinludashi的网址收藏</title> <!-- 网页标题 -->
+    <link rel="stylesheet" href="styles.css"> <!-- 引入外部样式表 -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* 确保页面高度至少为视口高度 */
+        /* 页面基本样式 */
+        body, html {
+            height: 100%; /* 确保 body 和 html 的高度为 100% */
+            margin: 0; /* 清除默认的边距 */
+            padding: 0; /* 清除默认的填充 */
         }
-        h1 {
-            margin-top: 20px;
-            color: #333;
-            margin: 0 auto;
+        
+        /* 容器样式 */
+        .container {
+            width: 100%; /* 容器宽度占满屏幕 */
+            min-height: 100vh; /* 容器最小高度为视口高度 */
+            margin: 0 auto; /* 自动水平居中 */
+            padding: 20px; /* 内边距 */
+            background-color: white; /* 背景颜色为白色 */
+            border-radius: 8px; /* 圆角效果 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+            box-sizing: border-box; /* 包含 padding 和 border 在内的宽高计算 */
+            display: flex; /* 使用 flex 布局 */
+            flex-direction: column; /* 垂直排列子元素 */
+            justify-content: flex-start; /* 从顶部开始排列 */
+            overflow: auto; /* 防止内容溢出容器 */
         }
-        #search-container {
-            text-align: center;
-            margin-top: 20px;
+        
+        /* 标题样式 */
+        h1, h2 {
+            text-align: center; /* 内容居中 */
+            color: #333; /* 字体颜色 */
         }
+        
+        /* 搜索框样式 */
+        .search-container {
+            margin-bottom: 20px; /* 底部间距 */
+            text-align: center; /* 内容居中 */
+        }
+        
         #search-input {
-            width: 80%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            width: 60%; /* 宽度为容器的 60% */
+            padding: 8px; /* 内边距 */
+            font-size: 16px; /* 字体大小 */
+            border: 1px solid #ccc; /* 边框样式 */
+            border-radius: 4px; /* 边框圆角 */
         }
-        #container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 20px;
-            padding: 0 20px;
-            flex-grow: 1; /* 让内容区尽量扩展 */
+        
+        /* 标签按钮容器样式 */
+        .tags-container {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: space-around; /* 子元素之间均匀分布 */
+            flex-wrap: wrap; /* 允许子元素换行 */
+            margin-bottom: 30px; /* 底部间距 */
         }
-        .bookmark {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            padding: 15px;
-            box-sizing: border-box;
-            transition: transform 0.3s;
+        
+        /* 标签按钮样式 */
+        .tag-button {
+            background-color: #007bff; /* 背景颜色 */
+            color: white; /* 字体颜色 */
+            border: none; /* 去掉边框 */
+            padding: 8px 16px; /* 内边距 */
+            margin: 5px; /* 外边距 */
+            border-radius: 4px; /* 边框圆角 */
+            cursor: pointer; /* 鼠标悬停时显示为指针 */
         }
-        .bookmark:hover {
-            transform: translateY(-5px);
+        
+        .tag-button:hover {
+            background-color: #0056b3; /* 鼠标悬停时改变背景颜色 */
         }
-        .bookmark h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #333;
+        
+        /* 网址卡片样式 */
+        .url-card {
+            background-color: #f9f9f9; /* 背景颜色 */
+            border: 1px solid #ddd; /* 边框样式 */
+            padding: 10px; /* 内边距 */
+            margin: 8px; /* 外边距 */
+            border-radius: 8px; /* 边框圆角 */
+            width: 230px; /* 固定宽度 */
+            box-sizing: border-box; /* 包含 padding 和 border 在内的宽高计算 */
+            vertical-align: top; /* 垂直对齐 */
+            transition: transform 0.2s; /* 鼠标悬停时平滑过渡效果 */
+            max-width: 100%; /* 限制最大宽度 */
+            flex-grow: 1; /* 可伸缩 */
+            flex-basis: 230px; /* 设置卡片基础宽度 */
+            height: auto; /* 高度根据内容自动调整 */
         }
-        .bookmark p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 15px;
+        
+        .url-card:hover {
+            transform: scale(1.05); /* 鼠标悬停时放大效果 */
         }
-        .bookmark a {
-            display: inline-block;
-            color: #1a73e8;
-            text-decoration: none;
-            font-weight: bold;
+        
+        /* 网址卡片标题样式 */
+        .url-card h3 {
+            margin-top: 0; /* 顶部外边距为 0 */
+            font-size: 16px; /* 字体大小 */
+            word-wrap: break-word; /* 自动换行 */
         }
-        .bookmark a:hover {
-            text-decoration: underline;
+        
+        /* 网址卡片描述样式 */
+        .url-card p {
+            font-size: 14px; /* 字体大小 */
+            color: #555; /* 字体颜色 */
+            height: auto; /* 高度根据内容自动调整 */
+            overflow: hidden; /* 隐藏溢出的内容 */
+            word-wrap: break-word; /* 自动换行 */
         }
+        
+        /* 网址卡片链接样式 */
+        .url-card a {
+            color: #007bff; /* 链接颜色 */
+            text-decoration: none; /* 去掉下划线 */
+            font-weight: bold; /* 加粗字体 */
+        }
+        
+        .url-card a:hover {
+            text-decoration: underline; /* 鼠标悬停时加上下划线 */
+        }
+        
+        /* 网址卡片标签样式 */
+        .url-card .tags {
+            margin-top: 10px; /* 上边距 */
+            font-size: 12px; /* 字体大小 */
+            color: #888; /* 字体颜色 */
+            text-align: left; /* 左对齐 */
+        }
+        
+        /* 无结果提示样式 */
+        .no-results {
+            text-align: center; /* 居中显示 */
+            color: #f44336; /* 红色字体 */
+            font-size: 18px; /* 字体大小 */
+            font-weight: bold; /* 加粗字体 */
+        }
+        
+        /* 网址卡片容器样式 */
+        .links-container {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: center; /* 居中显示 */
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 20px; /* 卡片之间的间距 */
+            margin-top: 20px; /* 上边距 */
+        }
+        
+        #url-list {
+            display: flex; /* 使用 flex 布局 */
+            justify-content: center; /* 居中显示 */
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 0px; /* 卡片之间的间距 */
+            margin-top: 5px; /* 上边距 */
+        }
+        
+        /* 页脚样式 */
         footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            margin-top: 15px; /* 页脚与内容之间的间距 */
+            text-align: center; /* 内容居中 */
+            font-size: 14px; /* 字体大小 */
+            color: #888; /* 字体颜色 */
+            padding: 10px 0; /* 内边距 */
+            background-color: #f4f4f9; /* 背景颜色 */
+            position: sticky; /* 粘性定位 */
+            bottom: 0; /* 在页面底部 */
+            width: 100%; /* 宽度占满 */
+            left: 0; /* 向左对齐 */
+            background-color: #333; /* 背景颜色 */
+            z-index: 1000; /* 确保页脚位于最上层 */
+            margin-top: auto; /* 保证页脚始终在页面底部 */
         }
-        .search-result {
-            display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            font-size: 14px;
+        
+        footer a {
+            color: #007bff; /* 链接颜色 */
+            text-decoration: none; /* 去掉下划线 */
         }
-        .search-result.visible {
-            display: block;
+        
+        footer a:hover {
+            text-decoration: underline; /* 鼠标悬停时加下划线 */
         }
-        @media (max-width: 768px) {
-		    .bookmark {
-		        flex: 1 1 calc(50% - 10px); /* 每行最少显示2个网址，最多4个 */
-		    }
-		}
-		
-		/* 平板端到小桌面端：每行最多显示4个网址 */
-		@media (min-width: 768px) and (max-width: 1024px) {
-		    .bookmark {
-		        flex: 1 1 calc(25% - 20px); /* 每行显示4个网址 */
-		    }
-		}
-        @media (max-width: 768px) {
-            .bookmark {
-                width: 200px;
+        
+        /* 小屏幕调整样式 */
+        @media (max-width: 600px) {
+            .url-card {
+                flex-basis: calc(50% - 20px); /* 每行显示 2 个卡片，留有间距 */
+                min-width: 220px; /* 确保卡片不会太小 */
+            }
+        
+            #url-list {
+                gap: 2px; /* 调整卡片之间的间距 */
             }
         }
+        
+        /* 超小屏幕调整样式 */
+        @media (max-width: 400px) {
+            .url-card {
+                flex-basis: calc(100% - 20px); /* 每行显示 1 个卡片 */
+            }
+        }
+		
+		/* 说明部分样式 */
+		.instructions {
+		    position: fixed;
+			top: 50%; /* 垂直居中 */
+			left: 50%; /* 水平居中 */
+			transform: translate(-50%, -50%); /* 使用 transform 精确居中 */
+			font-size: 16px;
+			color: #333;
+			background-color: #fff;
+			padding: 15px;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			width: 80%;
+			z-index: 10;
+			display: block; /* 默认显示说明 */
+		}
+					
+		.instructions ul {
+			margin: 0;
+			padding-left: 0; /* 去掉左侧内边距 */
+			list-style-type: none; /* 去掉默认的项目符号 */
+		}
+					
+		.instructions li {
+			margin-bottom: 15px; /* 增加每行说明之间的间距 */
+			padding-left: 30px; /* 为每行文字增加左间距 */
+		}
+		
+		.instructions h3 {
+			text-align: center; /* 标题居中 */
+			font-size: 30px;
+			color: red;
+			margin-top: 10px; /* 增加标题的上间距 */
+		}
+					
+		.close-btn {
+			position: absolute;
+			top: 5px;
+			right: 20px;
+			font-size: 20px;
+			color: #888;
+			cursor: pointer;
+		}
+		/* 说明部分样式 */
+
     </style>
 </head>
 <body>
+	
+	<!-- 说明部分 -->
+	<div class="instructions" id="instructions">
+	  <span class="close-btn" id="closeBtn" style="color: red; font-size: 50px;">&times;</span> <!-- 关闭按钮 -->
+	  <h3>温馨提示：</h3>
+	  <ul>
+	    <li>1、由于网页托管于国际服务器，可能会出现加载不出来的问题（该服器很安全，可放心使用）；</li>
+	    <li>2、当页面出现BUG或者打不开时请尝试多刷新几次（刷新20+次都属于正常）；</li>
+	    <li>3、当刷新页面20+次后依然无法打开时可尝试复制网址更换浏览器打开；</li>
+	    <li>4、微信打开时可能会提醒有风险，请忽略，也可能会显示打不开，请尝试多刷新几次就能打开；</li>
+	    <li>5、网页部分内容来自网络，请自行甄别，博主不承担任何风险；</li>
+	  </ul>
+	</div>
+	
+    <div class="container">
+        <h1>其他优秀网站收藏</h1> <!-- 页面主标题 -->
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="搜索网址或标签..." oninput="searchUrls()"> <!-- 搜索框，输入时触发搜索 -->
+        </div>
 
-    <h1>其他网址收藏</h1>
+        <div class="tags-container">
+            <div id="tags-list">
+                <!-- 标签按钮会动态生成在这里 -->
+            </div>
+        </div>
 
-    <div id="search-container">
-        <input type="text" id="search-input" placeholder="搜索收藏的网址..." onkeyup="searchBookmarks()">
-        <div id="search-result" class="search-result"></div>
+        <div class="links-container">
+            <div id="url-list">
+                <!-- 收藏的网址会动态生成在这里 -->
+            </div>
+        </div>
     </div>
 
-    <div id="container">
-        <!-- 每个网址的展示框 -->
-	<div class="bookmark">
-            <h3>在线PS</h3>
-            <p>一个线上的PS网站非常方便便捷</p>
-            <a href="https://www.photopea.com/">点这里-去看看</a>
-        </div>
-        
-        
-        <div class="bookmark">
-            <h3>优品PPT</h3>
-            <p>一个有情怀的免费PPT下载网站</p>
-            <a href="https://www.ypppt.com/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>HBuilderX</h3>
-            <p>一个代码编辑软件及运行网站，推荐</p>
-            <a href="https://www.dcloud.io/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>APKMirror</h3>
-            <p>Google应用下载网站</p>
-            <a href="https://www.apkmirror.com/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>aurora</h3>
-            <p>Google应用下载网站</p>
-            <a href="https://auroraoss.com/">点这里-去看看</a>
-        </div>
-	    
-        <div class="bookmark">
-            <h3>盘友</h3>
-            <p>网盘资源搜索引擎</p>
-            <a href="https://panyq.com/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>小众技术网址导航</h3>
-            <p>网址导航网站</p>
-            <a href="https://www.xiaozhongjishu.com/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>哲风壁纸</h3>
-            <p>各种手机电脑高清壁纸免费下载</p>
-            <a href="https://haowallpaper.com/wallpaperForum">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>懒盘</h3>
-            <p>网盘资源搜索引擎</p>
-            <a href="https://www.lzpanx.com/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>懒人办公</h3>
-            <p>各种文档表格模版下载</p>
-            <a href="https://www.lanren.work/excel/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>美工吧</h3>
-            <p>美工资源导航网站</p>
-            <a href="https://www.meigong8.com/">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>淘大师</h3>
-            <p>美工资源导航网站</p>
-            <a href="www.taodashi.com">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>云萌win系统激活工具</h3>
-            <p>云萌win系统激活工具</p>
-            <a href="https://cmwtat.cloudmoe.com/cn.html">点这里-去看看</a>
-        </div>
-        
-        <div class="bookmark">
-            <h3>网址导航</h3>
-            <p>网址导航网站</p>
-            <a href="https://nav.cnxiaobai.com/">点这里-去看看</a>
-        </div>
-		
-		<div class="bookmark">
-		    <h3>网址导航</h3>
-		    <p>网址导航网站，很全面，很不错，非常推荐！</p>
-		    <a href="https://home.designshidai.com/">点这里-去看看</a>
-		</div>
-		
-		<div class="bookmark">
-		    <h3>洛书小说</h3>
-		    <p>洛书小说是一个免费在线阅读电子小说的网站，网站界面清爽，而且暂无广告，阅读体验较佳。站内的小说资源每天都保持更新，所有小说均可免费在线阅读。
-不过如果要把洛书小说作为日常阅读小说的网站使用，有两个问题比较丢分。第一个问题，洛书小说的小说资源数量并不多，所以有不少经典小说无法被找到。第二个问题是阅读界面虽然简洁，但是缺少了对于背景色、字体、间距等常规阅读设置，尤其对于有夜间阅读习惯的童鞋来说很不友好</p>
-		    <a href="https://www.luoshu1.com">点这里-去看看</a>
-		</div>
-		
-		<div class="bookmark">
-		    <h3>菜鸟教程</h3>
-		    <p>菜鸟教程(www.runoob.com)提供了编程的基础技术教程, 介绍了HTML、CSS、Javascript、Python,Java,Ruby,C,PHP , MySQL等各种编程语言的基础知识。 同时本站中也提供了大量的在线实例,通过实例</p>
-		    <a href="https://www.runoob.com/">点这里-去看看</a>
-		</div>
-		
-		<div class="bookmark">
-		    <h3>腾讯QQ浏览器在线工具箱平台</h3>
-		    <p>腾讯QQ浏览器在线工具箱平台，提供证件照生成，表情包制作，PDF转换，文字提取，二维码生成，数据校验、照片修复、插件安装等在线服务，让你无忧生活</p>
-		    <a href="https://tool.browser.qq.com/">点这里-去看看</a>
-		</div>
-		
-		<div class="bookmark">
-		    <h3>Convertio</h3>
-		    <p>一个支持文件拖拽即可完成转换的的网站，支持mp4、wmv、avi等罕见格式转换</p>
-		    <a href="https://convertio.co/zh/">点这里-去看看</a>
-		</div>
-		
-		<div class="bookmark">
-		    <h3>UU在线工具</h3>
-		    <p>UU在线工具有很多免费的在线使用工具各种工具都有</p>
-		    <a href="https://uutool.cn/">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>PDF在线工具</h3>
-		    <p>PDF在线工具</p>
-		    <a href="https://tools.pdf24.org/zh/">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>PDF在线工具2</h3>
-		    <p>PDF在线工具2</p>
-		    <a href="https://stirlingpdf.io/?lang=zh_CN">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>PDF大文件转换在线工具</h3>
-		    <p>PDF在线工具</p>
-		    <a href="https://www.alltoall.net/">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>PDF大文件转换在线工具</h3>
-		    <p>PDF在线工具</p>
-		    <a href="https://www.alltoall.net/">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>PDFgear免费PDF编辑软件</h3>
-		    <p>免费的PDF编辑软件win+mac双端，提取码：9xq6</p>
-		    <a href="https://pan.baidu.com/s/1YWf6rn4o82qW-nHM69Qtvg ">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>Design Notes</h3>
-		    <p>全球优质免费资源库尽在Design Notes个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源</p>
-		    <a href="https://designnotes.cn/">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>前端资源工具</h3>
-		    <p>前端开发者必备探索最全资源和工具</p>
-		    <a href="https://geeknav.zeabur.app/?ref=designnotes.cn">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>微工具</h3>
-		    <p>在线1600中工具</p>
-		    <a href="https://www.wetools.com/?ref=designnotes.cn">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>TVBOX具</h3>
-		    <p>TVBox就是一个功能强大的TV追剧神器，你可以查看目标站点资源的所有分类，包括其所有相关的影片。在目前的版本中，TVBox提供了一个聚合模式，顾名思义，当你点入一个影片时，它会自动搜索聚合展示接口中所有站点相关的影视资源，这样方便你寻找更优质的片源。</p>
-		    <a href="https://github.com/amclubs/iptv-tvbox">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>Adobe Color CC</h3>
-		    <p>高效配色工具，可以选择不同的颜色规则使用交互式色盘亮度以及不同的颜色来建立颜色，支持直接提取以及输入代码颜色超全的配色方案，还能通过色轮，搭配配色方案</p>
-		    <a href="https://color.adobe.com/">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>Color space</h3>
-		    <p>只要输入主色调颜色号，一键就能生成优秀的配色方案，并且还提供了三种配色模式，调色板，渐变色，三色渐变</p>
-		    <a href="https://mycolor.space/">点这里-去看看</a>
-		</div>
-        
-		<div class="bookmark">
-		    <h3>Color Hunt</h3>
-		    <p>网站实时更新不同的配色方案，颜色清新，为配色爱好者提供社交网站，可以创建自己的调色板与大家分享</p>
-		    <a href="https://www.colorhunt.co/">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>中国色</h3>
-		    <p>中国传统颜色配色网站</p>
-		    <a href="https://www.zhongguose.com/">点这里-去看看</a>
-		</div>
-
-		<div class="bookmark">
-		    <h3>千通彩色彩管理</h3>
-		    <p>一个识别颜色网站，可以输入主色号生成配色</p>
-		    <a href="https://www.qtccolor.com/secaiku/">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>顶级手机投屏软件</h3>
-		    <p>顶级手机投屏软件github原项目仓库，需要命令行投屏，比较复杂</p>
-		    <a href="https://github.com/Genymobile/scrcpy">点这里-去看看</a>
-		</div>
-
-	    
-		<div class="bookmark">
-		    <h3>顶级手机投屏软件</h3>
-		    <p>顶级手机投屏软件github原项目仓库，同上</p>
-		    <a href="https://github.com/barry-ran/QtScrcpy">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>fmhy</h3>
-		    <p>王炸级的资源网站，最全免费资源集散地</p>
-		    <a href="https://fmhy.net/">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>零度博客</h3>
-		    <p>各种看不到的教程和资源</p>
-		    <a href="https://www.freedidi.com/">点这里-去看看</a>
-		</div>
-	    	    
-		<div class="bookmark">
-		    <h3>魔塔社区</h3>
-		    <p>各种ai开源工具，海量开源模型数据，一键创建体验ai应用，尽在魔塔社区</p>
-		    <a href="https://modelscope.cn/home">点这里-去看看</a>
-		</div>
-	    	    	    
-		<div class="bookmark">
-		    <h3>背景移除工具</h3>
-		    <p>一键移除背景/p>
-		    <a href="https://modelscope.cn/studios/AI-ModelScope/background-removal">点这里-去看看</a>
-		</div>
-	    
-		<div class="bookmark">
-		    <h3>超好用的AIp图工具</h3>
-		    <p>局部重绘神器</p>
-		    <a href="https://modelscope.cn/studios/ant-research/MagicQuill_demo">点这里-去看看</a>
-		</div>
-	    
-                <div class="bookmark">
-		    <h3>Design Notes</h3>
-		    <p>全球优质免费资源库尽在Design Notes一个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源。</p>
-		    <a href="https://designnotes.cn/">点这里-去看看</a>
-		</div>
-	    	    
-		<div class="bookmark">
-		    <h3>最佳新开源替代品</h3>
-		    <p>一个可以找到最佳新开源替代品</p>
-		    <a href="https://osssoftware.org/open-source-alternatives/">点这里-去看看</a>
-		</div>
-
-	    <div class="bookmark">
-            <h3>storytribea</h3>
-            <p>插画素材工具，无论是做故事设计版还是产品动漫故事情节都可以</p>
-            <a href="https://storytribeapp.com/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>CapCut Commerce Pro</h3>
-            <p>输入产品链接即可一键生成由AI生成的带货视频，例如数字人解说产品视频</p>
-            <a href="https://commercepro.capcut.com/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>即梦AI</h3>
-            <p>可以制作数字人口播，可以生成视频的工具，字节旗下免费AI</p>
-            <a href="https://jimeng.jianying.com/?ref=ai-find.cn">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>Ominicontrol产品图片生成场景图</h3>
-            <p>可以将白底图一键生成带有场景的主图，电商人福音</p>
-            <a href="https://modelscope.cn/studios/AI-ModelScope/OminiControl">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>OEC</h3>
-            <p>一个工具可以随时提供你需要的全球贸易数据</p>
-            <a href="https://oec.world/en">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>ARC浏览器下载</h3>
-            <p>Arc浏览器特点包括竖向标签栏、空间概念以组织浏览内容，快速预览网页，分屏显示，以及整合AI功能，旨在提升浏览效率和体验。</p>
-            <a href="https://arc.net/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>AI工具集网址导航</h3>
-            <p>这是一个专门记载AI工具的集合导航网站</p>
-            <a href="https://ai-bot.cn/lovable/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>lovable</h3>
-            <p>这是一个可以用自然语言AI制作app和小程序的网站</p>
-            <a href="https://lovable.dev/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>medio.cool</h3>
-            <p>这是一个可以AI视频去水印，AI 一键翻译商品详情出图，跨境神器</p>
-            <a href="https://medio.cool/">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>jaywcjlove</h3>
-            <p>这是一个开发者备忘录，包含了几乎所有编程语言的使用文档</p>
-            <a href="https://github.com/jaywcjlove/reference">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>figma</h3>
-            <p>这个网站提供了关于Figma的各种信息，包括产品功能、解决方案、社区活动、资源、定价以及最新动态等。Figma是一个协作式界面设计工具，广泛应用于设计、原型制作、用户体验设计、网页设计等领域。</p>
-            <a href="https://www.figma.com/">点这里-去看看</a>
-        </div>
-	    
-        <div class="bookmark">
-            <h3>视频万能解析下载</h3>
-            <p>支持国内外所有视频网站解析及下载，项目原地址：https://github.com/imputnet/cobalt</p>
-            <a href="https://cobalt.tools/ ">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>github趋势榜</h3>
-            <p>github上的趋势榜单</p>
-            <a href="https://github.com/trending">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>github TOP200排行榜</h3>
-            <p>github TOP200排行榜</p>
-            <a href="https://www.github-zh.com/top">点这里-去看看</a>
-        </div>
-
-        <div class="bookmark">
-            <h3>github中文排行榜</h3>
-            <p>github中文排行榜</p>
-            <a href="https://www.github-zh.com/top-china">点这里-去看看</a>
-        </div>
-
-
-
-	    
-        <!-- 这里可以继续添加更多网址 -->
-    </div>
-
+    <!-- 页脚部分 -->
     <footer>
-        <p>© 2024 Kevin的个人网址收藏. 未经许可，禁止转载.</p>
+        © 2025 Kevinludashi 网址收藏. 未经许可，禁止转载. <!-- 页脚版权信息 -->
     </footer>
 
     <script>
-        function searchBookmarks() {
-            var input = document.getElementById('search-input').value.toLowerCase();
-            var bookmarks = document.querySelectorAll('.bookmark');
-            var result = document.getElementById('search-result');
-            var found = false;
+        // 网址数据，模拟收藏的网址（你可以根据需求自行修改或扩展）
+        const urls = [
+			
+			// 网址数据 卡片
+            {
+                title: "在线PS",
+                link: "https://www.photopea.com/",
+                description: "一个线上的PS网站非常方便便捷。",
+                tags: ["全部", "#线上工具", "#PS"]
+            },
+			
+			// 网址数据 卡片
+            {
+                title: "优品PPT",
+                link: "https://www.ypppt.com/",
+                description: "一个有情怀的免费PPT下载网站。",
+                tags: ["全部", "#PPT", "#办公资源"]
+            },
+			
+			// 网址数据 卡片
+            {
+                title: "盘友",
+                link: "https://panyq.com/",
+                description: "网盘资源搜索引擎。",
+                tags: ["全部", "#搜索", "#网盘", "#资源"]
+            },
+			
+			// 网址数据 卡片
+            {
+                title: "小众技术网址导航",
+                link: "https://www.xiaozhongjishu.com/",
+                description: "网址导航网站。",
+                tags: ["全部", "#网址导航"]
+            },
+			
+			// 网址数据 卡片
+			{
+			    title: "哲风壁纸",
+			    link: "https://haowallpaper.com/wallpaperForum",
+			    description: "各种手机电脑高清壁纸免费下载。",
+			    tags: ["全部", "#壁纸"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "懒盘",
+			    link: "https://www.lzpanx.com/",
+			    description: "网盘资源搜索引擎。",
+			    tags: ["全部", "#搜索", "#网盘", "#资源"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "懒人办公",
+			    link: "https://www.lanren.work/excel/",
+			    description: "各种文档表格模版下载。",
+			    tags: ["全部", "#办公资源"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "美工吧",
+			    link: "https://www.meigong8.com/",
+			    description: "美工资源导航网站。",
+			    tags: ["全部", "#美工", "#PS", "#设计", "#素材"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "淘大师",
+			    link: "www.taodashi.com",
+			    description: "美工资源导航网站。",
+			    tags: ["全部", "#美工", "#PS", "#设计", "#素材"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "网址导航",
+			    link: "https://nav.cnxiaobai.com/",
+			    description: "网址导航网站。",
+			    tags: ["全部", "#网址导航"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "网址导航",
+			    link: "https://home.designshidai.com/",
+			    description: "网址导航网站，很全面，很不错，非常推荐！。",
+			    tags: ["全部", "#网址导航"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "洛书小说",
+			    link: "https://www.luoshu1.com",
+			    description: "洛书小说是一个免费在线阅读电子小说的网站，网站界面清爽，而且暂无广告，阅读体验较佳。站内的小说资源每天都保持更新，所有小说均可免费在线阅读。",
+			    tags: ["全部", "#小说"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "菜鸟教程",
+			    link: "https://www.runoob.com/",
+			    description: "菜鸟教程(www.runoob.com)提供了编程的基础技术教程, 介绍了HTML、CSS、Javascript、Python,Java,Ruby,C,PHP , MySQL等各种编程语言的基础知识。 同时本站中也提供了大量的在线实例,通过实例。",
+			    tags: ["全部", "#编程教程", "#编程", "#教程","#开发者"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "腾讯QQ浏览器在线工具箱平台",
+			    link: "https://tool.browser.qq.com/",
+			    description: "腾讯QQ浏览器在线工具箱平台，提供证件照生成，表情包制作，PDF转换，文字提取，二维码生成，数据校验、照片修复、插件安装等在线服务，让你无忧生活",
+			    tags: ["全部", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Convertio",
+			    link: "https://convertio.co/zh/",
+			    description: "一个支持文件拖拽即可完成转换的的网站，支持mp4、wmv、avi等罕见格式转换",
+			    tags: ["全部", "#线上工具", "#格式转换"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "UU在线工具",
+			    link: "https://uutool.cn/",
+			    description: "UU在线工具有很多免费的在线使用工具各种工具都有换",
+			    tags: ["全部", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "PDF在线工具",
+			    link: "https://tools.pdf24.org/zh/",
+			    description: "PDF在线工具，超级齐全",
+			    tags: ["全部", "#线上工具", "#PDF"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "PDF在线工具2",
+			    link: "https://stirlingpdf.io/?lang=zh_CN/",
+			    description: "PDF在线工具，超级齐全，推荐",
+			    tags: ["全部", "#线上工具", "#PDF"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "PDF大文件转换在线工具",
+			    link: "https://stirlingpdf.io/?lang=zh_CN/",
+			    description: "免费的PDF编辑软件win+mac双端，提取码：9xq6",
+			    tags: ["全部", "#线上工具", "#PDF"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "PDFgear免费PDF编辑软件",
+			    link: "https://pan.baidu.com/s/1YWf6rn4o82qW-nHM69Qtvg",
+			    description: "PDF在线工具3",
+			    tags: ["全部", "#线上工具", "#PDF"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Design Notes",
+			    link: "https://designnotes.cn/",
+			    description: "全球优质免费资源库尽在Design Notes个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源",
+			    tags: ["全部", "#资源"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "前端资源工具",
+			    link: "https://geeknav.zeabur.app/?ref=designnotes.cn",
+			    description: "前端开发者必备探索最全资源和工具",
+			    tags: ["全部", "#资源", "#编程","#开发者"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "微工具",
+			    link: "https://www.wetools.com/?ref=designnotes.cn",
+			    description: "在线1600中工具",
+			    tags: ["全部", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Adobe Color CC",
+			    link: "https://color.adobe.com/",
+			    description: "高效配色工具，可以选择不同的颜色规则使用交互式色盘亮度以及不同的颜色来建立颜色，支持直接提取以及输入代码颜色超全的配色方案，还能通过色轮，搭配配色方案",
+			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Color space",
+			    link: "https://mycolor.space/",
+			    description: "只要输入主色调颜色号，一键就能生成优秀的配色方案，并且还提供了三种配色模式，调色板，渐变色，三色渐变",
+			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Color Hunt",
+			    link: "https://www.colorhunt.co/",
+			    description: "网站实时更新不同的配色方案，颜色清新，为配色爱好者提供社交网站，可以创建自己的调色板与大家分享",
+			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "中国色",
+			    link: "https://www.zhongguose.com/",
+			    description: "中国传统颜色配色网站",
+			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "千通彩色彩管理",
+			    link: "https://www.qtccolor.com/secaiku/",
+			    description: "一个识别颜色网站，可以输入主色号生成配色",
+			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "fmhy",
+			    link: "https://fmhy.net/",
+			    description: "王炸级的资源网站，最全免费资源集散地",
+			    tags: ["全部", "#资源"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "零度博客",
+			    link: "https://www.freedidi.com/",
+			    description: "各种看不到的教程和资源",
+			    tags: ["全部", "#资源", "#教程"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "魔塔社区",
+			    link: "https://modelscope.cn/home",
+			    description: "各种ai开源工具，海量开源模型数据，一键创建体验ai应用，尽在魔塔社区",
+			    tags: ["全部", "#AI", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "背景移除工具",
+			    link: "https://modelscope.cn/studios/AI-ModelScope/background-removal",
+			    description: "一键移除背景",
+			    tags: ["全部", "#AI", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "超好用的AI p图工具",
+			    link: "https://modelscope.cn/studios/ant-research/MagicQuill_demo",
+			    description: "AI局部重绘神器",
+			    tags: ["全部", "#AI", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Design Notes",
+			    link: "https://designnotes.cn/",
+			    description: "全球优质免费资源库尽在Design Notes一个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源",
+			    tags: ["全部", "#AI", "#线上工具"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "最佳新开源替代品",
+			    link: "https://osssoftware.org/open-source-alternatives/",
+			    description: "一个可以找到最佳新开源替代品",
+			    tags: ["全部", "#资源"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "storytribea",
+			    link: "https://storytribeapp.com/",
+			    description: "插画素材工具，无论是做故事设计版还是产品动漫故事情节都可以",
+			    tags: ["全部", "#线上工具", "#美工", "#设计"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "CapCut Commerce Pro",
+			    link: "https://commercepro.capcut.com/",
+			    description: "输入产品链接即可一键生成由AI生成的带货视频，例如数字人解说产品视频",
+			    tags: ["全部", "#线上工具", "#剪辑", "#AI", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "即梦AI",
+			    link: "https://jimeng.jianying.com/?ref=ai-find.cn",
+			    description: "可以制作数字人口播，可以生成视频的工具，字节旗下免费AI.",
+			    tags: ["全部", "#线上工具", "#剪辑", "#AI", "#视频"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "Ominicontrol产品图片生成场景图",
+			    link: "https://modelscope.cn/studios/AI-ModelScope/OminiControl",
+			    description: "可以将白底图一键生成带有场景的主图，电商人福音.",
+			    tags: ["全部", "#线上工具","#AI", "#电商", "#美工", "#设计"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "OEC",
+			    link: "https://oec.world/en",
+			    description: "一个工具可以随时提供你需要的全球贸易数据.",
+			    tags: ["全部", "#电商"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "AI工具集网址导航",
+			    link: "https://ai-bot.cn/lovable/",
+			    description: "这是一个专门记载AI工具的集合导航网站.",
+			    tags: ["全部", "#网址导航","#AI"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "lovable",
+			    link: "https://lovable.dev/",
+			    description: "这是一个可以用自然语言AI制作app和小程序的网站.",
+			    tags: ["全部", "#线上工具","#AI"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "medio.cool",
+			    link: "https://medio.cool/",
+			    description: "这是一个可以AI视频去水印，AI 一键翻译商品详情出图，跨境神器.",
+			    tags: ["全部", "#线上工具","#AI","#视频","#剪辑","#跨境","#美工","#设计"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "jaywcjlove",
+			    link: "https://github.com/jaywcjlove/reference",
+			    description: "这是一个开发者备忘录，包含了几乎所有编程语言的使用文档.",
+			    tags: ["全部", "#编程教程","#编程","#教程","#开发者"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "figma",
+			    link: "https://www.figma.com/",
+			    description: "这个网站提供了关于Figma的各种信息，包括产品功能、解决方案、社区活动、资源、定价以及最新动态等。Figma是一个协作式界面设计工具，广泛应用于设计、原型制作、用户体验设计、网页设计等领域.",
+			    tags: ["全部","#编程","#开发者"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "视频万能解析下载",
+			    link: "https://cobalt.tools/",
+			    description: "支持国外所有视频网站解析及下载，项目原地址：https://github.com/imputnet/cobalt.",
+			    tags: ["全部","#线上工具","#视频","#下载"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "github趋势榜",
+			    link: "https://github.com/trending",
+			    description: "github上的趋势榜单.",
+			    tags: ["全部","#github","#github趋势"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "github TOP200排行",
+			    link: "https://www.github-zh.com/top",
+			    description: "github TOP200排行.",
+			    tags: ["全部","#github","#github趋势"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "github中文排行榜",
+			    link: "https://www.github-zh.com/top-china",
+			    description: "github中文排行榜.",
+			    tags: ["全部","#github","#github趋势"]
+			},
+			
+			// 网址数据 卡片
+			{
+			    title: "AMZ1232",
+			    link: "https://amz123.com",
+			    description: "这是一个跨境电商的导航网站.",
+			    tags: ["全部", "#网址导航","#跨境"]
+			},
+			
+			
+        ];
+		// 以上网址数据，模拟收藏的网址（你可以根据需求自行修改或扩展）
+		
+		
 
-            // 清除之前的搜索结果提示
-            result.innerHTML = '';
-            result.classList.remove('visible');
-
-            bookmarks.forEach(function(bookmark) {
-                var title = bookmark.querySelector('h3').textContent.toLowerCase();
-                var description = bookmark.querySelector('p').textContent.toLowerCase();
-
-                // 检查名称和简介是否包含搜索关键词
-                if (title.includes(input) || description.includes(input)) {
-                    bookmark.style.display = 'block'; // 显示匹配的收藏项
-                    if (!found) {
-                        result.innerHTML = '搜索结果：';
-                        result.classList.add('visible');
-                        found = true;
-                    }
-                    var resultItem = document.createElement('div');
-                    resultItem.innerHTML = '<a href="' + bookmark.querySelector('a').href + '">' + title + '</a>';
-                    result.appendChild(resultItem);
-                } else {
-                    bookmark.style.display = 'none'; // 隐藏不匹配的收藏项
-                }
+        // 渲染标签
+        function renderTags() {
+            const tagsSet = new Set(); // 使用 Set 结构去重标签
+            urls.forEach(url => {
+                url.tags.forEach(tag => {
+                    tagsSet.add(tag); // 将每个标签添加到 Set 中
+                });
             });
 
-            // 如果没有找到匹配项
-            if (!found) {
-                result.innerHTML = '没有找到匹配的结果。';
-                result.classList.add('visible');
+            const tagsList = document.getElementById("tags-list");
+            tagsList.innerHTML = ""; // 清空之前的标签
+
+            tagsSet.forEach(tag => {
+                const button = document.createElement("button");
+                button.classList.add("tag-button");
+                button.textContent = tag;
+                // 点击标签时调用搜索，传入标签作为搜索条件
+                button.onclick = function () {
+                    searchUrls(tag); 
+                };
+                tagsList.appendChild(button);
+            });
+        }
+
+        // 渲染网址列表
+        function renderUrls(searchTerm = '') {
+            const urlList = document.getElementById("url-list");
+            urlList.innerHTML = "";  // 清空当前显示的列表
+
+            const filteredUrls = urls.filter(url => {
+                const searchString = `${url.title} ${url.description} ${url.tags.join(' ')}`.toLowerCase();
+                return searchString.includes(searchTerm.toLowerCase()); // 进行大小写不敏感匹配
+            });
+
+            if (filteredUrls.length === 0) {
+                urlList.innerHTML = "<p class='no-results'>没有找到相关的网址。</p>"; // 没有找到结果时显示提示
+            }
+
+            filteredUrls.forEach(url => {
+                const urlCard = document.createElement("div");
+                urlCard.classList.add("url-card");
+
+                const title = document.createElement("h3");
+                // 将标题链接化，点击标题直接跳转
+                const link = document.createElement("a");
+                link.href = url.link;
+                link.textContent = url.title;
+                link.target = "_blank";  // 新窗口打开链接
+                title.appendChild(link);
+
+                const description = document.createElement("p");
+                description.textContent = url.description;
+
+                const tags = document.createElement("div");
+                tags.classList.add("tags");
+                tags.textContent = `标签: ${url.tags.join(', ')}`;
+
+                urlCard.appendChild(title);
+                urlCard.appendChild(description);
+                urlCard.appendChild(tags);
+
+                urlList.appendChild(urlCard);
+            });
+        }
+
+        // 搜索功能：根据搜索框输入的内容进行过滤
+        function searchUrls(searchTerm = '') {
+            const inputTerm = searchTerm.trim() === '' ? document.getElementById("search-input").value.trim() : searchTerm;
+            if (inputTerm === '') {
+                renderUrls(); // 如果搜索框为空，则显示所有网址
+            } else {
+                renderUrls(inputTerm); // 进行搜索并显示相关的网址
             }
         }
-    </script>
 
+        // 初始化显示标签和网址
+        renderTags();
+        renderUrls(); 
+		
+		// 关闭说明按钮
+			closeBtn.addEventListener('click', () => {
+			instructions.style.display = 'none'; // 隐藏说明部分
+			});
+    </script>
 </body>
 </html>
