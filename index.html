@@ -1,17 +1,25 @@
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"> <!-- 设置字符编码为 UTF-8，支持中文字符 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 确保页面在移动设备上适配 -->
-    <title>Kevinludashi的其他优秀网址收藏</title> <!-- 网页标题 -->
+    <title>Kevinludashi的网址收藏首页</title> <!-- 网页标题 -->
     <link rel="stylesheet" href="styles.css"> <!-- 引入外部样式表 -->
     <style>
         /* 页面基本样式 */
         body, html {
-            height: 100%; /* 确保 body 和 html 的高度为 100% */
-            margin: 0; /* 清除默认的边距 */
-            padding: 0; /* 清除默认的填充 */
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;  /* 或者删除该行，默认情况下是自动滚动 */
+            position: relative;
+            background: linear-gradient(45deg, #ff0000, #ff6ec7, #ff8a00, #7bdff2, #4caf50);
+            background-size: 600% 600%;
+            animation: gradientAnimation 10s ease infinite;
         }
+
         
         /* 容器样式 */
         .container {
@@ -19,7 +27,7 @@
             min-height: 100vh; /* 容器最小高度为视口高度 */
             margin: 0 auto; /* 自动水平居中 */
             padding: 20px; /* 内边距 */
-            background-color: white; /* 背景颜色为白色 */
+            background-color: rgba(255, 255, 255, 0); /* 设置背景透明 */
             border-radius: 8px; /* 圆角效果 */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
             box-sizing: border-box; /* 包含 padding 和 border 在内的宽高计算 */
@@ -61,7 +69,8 @@
         .tag-button {
             background-color: #007bff; /* 背景颜色 */
             color: white; /* 字体颜色 */
-            border: none; /* 去掉边框 */
+            border: 1px solid #ccc; /* 边框样式 */
+			/* border: none; /* 去掉边框 */
             padding: 8px 16px; /* 内边距 */
             margin: 5px; /* 外边距 */
             border-radius: 4px; /* 边框圆角 */
@@ -74,8 +83,8 @@
         
         /* 网址卡片样式 */
         .url-card {
-            background-color: #f9f9f9; /* 背景颜色 */
-            border: 1px solid #ddd; /* 边框样式 */
+            background-color: rgba(255, 255, 255, 0.7); /* 背景颜色 */
+            border: 1px solid white; /* 边框样式 */
             padding: 10px; /* 内边距 */
             margin: 8px; /* 外边距 */
             border-radius: 8px; /* 边框圆角 */
@@ -199,13 +208,14 @@
 		
 		/* 说明部分样式 */
 		.instructions {
+			border: 1px solid white; /* 边框样式 */
 		    position: fixed;
 			top: 50%; /* 垂直居中 */
 			left: 50%; /* 水平居中 */
 			transform: translate(-50%, -50%); /* 使用 transform 精确居中 */
 			font-size: 16px;
 			color: #333;
-			background-color: #fff;
+			background-color:  rgba(255, 255, 255, 0.9);;
 			padding: 15px;
 			border-radius: 5px;
 			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -241,11 +251,61 @@
 			cursor: pointer;
 		}
 		/* 说明部分样式 */
-
+		
+       /* 渐变背景动画 */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* 粒子容器 */
+        .particle-container {
+            position: fixed;  /* 使用固定定位 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;  /* 确保粒子不影响页面其他元素 */
+            z-index: 1;
+        }
+        
+        /* 粒子的基础样式 */
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particleAnimation 3s infinite ease-in-out;
+        }
+        
+        /* 粒子动画 */
+        @keyframes particleAnimation {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(50px, 50px);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(100px, 100px);
+                opacity: 0;
+            }
     </style>
 </head>
 <body>
-	
+    <!-- 粒子容器 -->
+	<div id="particle-container" class="particle-container"></div>
+
 	<!-- 说明部分 -->
 	<div class="instructions" id="instructions">
 	  <span class="close-btn" id="closeBtn" style="color: red; font-size: 50px;">&times;</span> <!-- 关闭按钮 -->
@@ -260,7 +320,7 @@
 	</div>
 	
     <div class="container">
-        <h1>其他优秀网站收藏</h1> <!-- 页面主标题 -->
+        <h1 style="color: white;">其他优秀网址收藏</h1> <!-- 页面主标题 -->
         <div class="search-container">
             <input type="text" id="search-input" placeholder="搜索网址或标签..." oninput="searchUrls()"> <!-- 搜索框，输入时触发搜索 -->
         </div>
@@ -286,578 +346,575 @@
     <script>
         // 网址数据，模拟收藏的网址（你可以根据需求自行修改或扩展）
         const urls = [
-
-           // 网址数据 卡片
-            {
-                title: "github Copilot",
-                link: "https://github.com/copilot/",
-                description: "这是github上的GPT-4o ai大模型。",
-                tags: ["全部", "#AI", "#GPT"]
-            },
-		
-			// 网址数据 卡片
-            {
-                title: "在线PS",
-                link: "https://www.photopea.com/",
-                description: "一个线上的PS网站非常方便便捷。",
-                tags: ["全部", "#线上工具", "#PS"]
-            },
-
-		    // 网址数据 卡片
-            {
-                title: "在线PS（稿定设计）",
-                link: "https://ps.gaoding.com/#/",
-                description: "一个线上的PS网站非常方便便捷。",
-                tags: ["全部", "#线上工具", "#PS"]
-            },
 			
 			// 网址数据 卡片
-            {
-                title: "优品PPT",
-                link: "https://www.ypppt.com/",
-                description: "一个有情怀的免费PPT下载网站。",
-                tags: ["全部", "#PPT", "#办公资源"]
-            },
+			            {
+			                title: "github Copilot",
+			                link: "https://github.com/copilot/",
+			                description: "这是github上的GPT-4o ai大模型。",
+			                tags: ["全部", "#AI", "#GPT"]
+			            },
+					
+						// 网址数据 卡片
+			            {
+			                title: "在线PS",
+			                link: "https://www.photopea.com/",
+			                description: "一个线上的PS网站非常方便便捷。",
+			                tags: ["全部", "#线上工具", "#PS"]
+			            },
 			
-			// 网址数据 卡片
-            {
-                title: "盘友",
-                link: "https://panyq.com/",
-                description: "网盘资源搜索引擎。",
-                tags: ["全部", "#搜索", "#网盘", "#资源"]
-            },
+					    // 网址数据 卡片
+			            {
+			                title: "在线PS（稿定设计）",
+			                link: "https://ps.gaoding.com/#/",
+			                description: "一个线上的PS网站非常方便便捷。",
+			                tags: ["全部", "#线上工具", "#PS"]
+			            },
+						
+						// 网址数据 卡片
+			            {
+			                title: "优品PPT",
+			                link: "https://www.ypppt.com/",
+			                description: "一个有情怀的免费PPT下载网站。",
+			                tags: ["全部", "#PPT", "#办公资源"]
+			            },
+						
+						// 网址数据 卡片
+			            {
+			                title: "盘友",
+			                link: "https://panyq.com/",
+			                description: "网盘资源搜索引擎。",
+			                tags: ["全部", "#搜索", "#网盘", "#资源"]
+			            },
+						
+						// 网址数据 卡片
+			            {
+			                title: "小众技术网址导航",
+			                link: "https://www.xiaozhongjishu.com/",
+			                description: "网址导航网站。",
+			                tags: ["全部", "#网址导航"]
+			            },
+						
+						// 网址数据 卡片
+						{
+						    title: "哲风壁纸",
+						    link: "https://haowallpaper.com/wallpaperForum",
+						    description: "各种手机电脑高清壁纸免费下载。",
+						    tags: ["全部", "#壁纸"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "懒盘",
+						    link: "https://www.lzpanx.com/",
+						    description: "网盘资源搜索引擎。",
+						    tags: ["全部", "#搜索", "#网盘", "#资源"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "懒人办公",
+						    link: "https://www.lanren.work/excel/",
+						    description: "各种文档表格模版下载。",
+						    tags: ["全部", "#办公资源"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "美工吧",
+						    link: "https://www.meigong8.com/",
+						    description: "美工资源导航网站。",
+						    tags: ["全部", "#美工", "#PS", "#设计", "#素材"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "淘大师",
+						    link: "www.taodashi.com",
+						    description: "美工资源导航网站。",
+						    tags: ["全部", "#美工", "#PS", "#设计", "#素材"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "网址导航",
+						    link: "https://nav.cnxiaobai.com/",
+						    description: "网址导航网站。",
+						    tags: ["全部", "#网址导航"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "网址导航",
+						    link: "https://home.designshidai.com/",
+						    description: "网址导航网站，很全面，很不错，非常推荐！。",
+						    tags: ["全部", "#网址导航"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "洛书小说",
+						    link: "https://www.luoshu1.com",
+						    description: "洛书小说是一个免费在线阅读电子小说的网站，网站界面清爽，而且暂无广告，阅读体验较佳。站内的小说资源每天都保持更新，所有小说均可免费在线阅读。",
+						    tags: ["全部", "#小说"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "菜鸟教程",
+						    link: "https://www.runoob.com/",
+						    description: "菜鸟教程(www.runoob.com)提供了编程的基础技术教程, 介绍了HTML、CSS、Javascript、Python,Java,Ruby,C,PHP , MySQL等各种编程语言的基础知识。 同时本站中也提供了大量的在线实例,通过实例。",
+						    tags: ["全部", "#编程教程", "#编程", "#教程","#开发者"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "腾讯QQ浏览器在线工具箱平台",
+						    link: "https://tool.browser.qq.com/",
+						    description: "腾讯QQ浏览器在线工具箱平台，提供证件照生成，表情包制作，PDF转换，文字提取，二维码生成，数据校验、照片修复、插件安装等在线服务，让你无忧生活",
+						    tags: ["全部", "#线上工具"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Convertio",
+						    link: "https://convertio.co/zh/",
+						    description: "一个支持文件拖拽即可完成转换的的网站，支持mp4、wmv、avi等罕见格式转换",
+						    tags: ["全部", "#线上工具", "#格式转换"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "UU在线工具",
+						    link: "https://uutool.cn/",
+						    description: "UU在线工具有很多免费的在线使用工具各种工具都有换",
+						    tags: ["全部", "#线上工具"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "PDF在线工具",
+						    link: "https://tools.pdf24.org/zh/",
+						    description: "PDF在线工具，超级齐全",
+						    tags: ["全部", "#线上工具", "#PDF"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "PDF在线工具2",
+						    link: "https://stirlingpdf.io/?lang=zh_CN/",
+						    description: "PDF在线工具，超级齐全，推荐",
+						    tags: ["全部", "#线上工具", "#PDF"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "PDF大文件转换在线工具",
+						    link: "https://stirlingpdf.io/?lang=zh_CN/",
+						    description: "免费的PDF编辑软件win+mac双端，提取码：9xq6",
+						    tags: ["全部", "#线上工具", "#PDF"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "PDFgear免费PDF编辑软件",
+						    link: "https://pan.baidu.com/s/1YWf6rn4o82qW-nHM69Qtvg",
+						    description: "PDF在线工具3",
+						    tags: ["全部", "#线上工具", "#PDF"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Design Notes",
+						    link: "https://designnotes.cn/",
+						    description: "全球优质免费资源库尽在Design Notes个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源",
+						    tags: ["全部", "#资源"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "前端资源工具",
+						    link: "https://geeknav.zeabur.app/?ref=designnotes.cn",
+						    description: "前端开发者必备探索最全资源和工具",
+						    tags: ["全部", "#资源", "#编程","#开发者"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "微工具",
+						    link: "https://www.wetools.com/?ref=designnotes.cn",
+						    description: "在线1600中工具",
+						    tags: ["全部", "#线上工具"]
+						},
 			
-			// 网址数据 卡片
-            {
-                title: "小众技术网址导航",
-                link: "https://www.xiaozhongjishu.com/",
-                description: "网址导航网站。",
-                tags: ["全部", "#网址导航"]
-            },
+					        // 网址数据 卡片
+						{
+						    title: "aicolors.co",
+						    link: "https://aicolors.co/",
+						    description: "一个优秀的配色网站",
+						    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Adobe Color CC",
+						    link: "https://color.adobe.com/",
+						    description: "高效配色工具，可以选择不同的颜色规则使用交互式色盘亮度以及不同的颜色来建立颜色，支持直接提取以及输入代码颜色超全的配色方案，还能通过色轮，搭配配色方案",
+						    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Color space",
+						    link: "https://mycolor.space/",
+						    description: "只要输入主色调颜色号，一键就能生成优秀的配色方案，并且还提供了三种配色模式，调色板，渐变色，三色渐变",
+						    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Color Hunt",
+						    link: "https://www.colorhunt.co/",
+						    description: "网站实时更新不同的配色方案，颜色清新，为配色爱好者提供社交网站，可以创建自己的调色板与大家分享",
+						    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "中国色",
+						    link: "https://www.zhongguose.com/",
+						    description: "中国传统颜色配色网站",
+						    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "千通彩色彩管理",
+						    link: "https://www.qtccolor.com/secaiku/",
+						    description: "一个识别颜色网站，可以输入主色号生成配色",
+						    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "fmhy",
+						    link: "https://fmhy.net/",
+						    description: "王炸级的资源网站，最全免费资源集散地",
+						    tags: ["全部", "#资源"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "零度博客",
+						    link: "https://www.freedidi.com/",
+						    description: "各种看不到的教程和资源",
+						    tags: ["全部", "#资源", "#教程"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "魔塔社区",
+						    link: "https://modelscope.cn/home",
+						    description: "各种ai开源工具，海量开源模型数据，一键创建体验ai应用，尽在魔塔社区",
+						    tags: ["全部", "#AI", "#线上工具"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "背景移除工具",
+						    link: "https://modelscope.cn/studios/AI-ModelScope/background-removal",
+						    description: "一键移除背景",
+						    tags: ["全部", "#AI", "#线上工具"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "超好用的AI p图工具",
+						    link: "https://modelscope.cn/studios/ant-research/MagicQuill_demo",
+						    description: "AI局部重绘神器",
+						    tags: ["全部", "#AI", "#线上工具"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Design Notes",
+						    link: "https://designnotes.cn/",
+						    description: "全球优质免费资源库尽在Design Notes一个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源",
+						    tags: ["全部", "#AI", "#线上工具"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "最佳新开源替代品",
+						    link: "https://osssoftware.org/open-source-alternatives/",
+						    description: "一个可以找到最佳新开源替代品",
+						    tags: ["全部", "#资源"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "storytribea",
+						    link: "https://storytribeapp.com/",
+						    description: "插画素材工具，无论是做故事设计版还是产品动漫故事情节都可以",
+						    tags: ["全部", "#线上工具", "#美工", "#设计"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "CapCut Commerce Pro",
+						    link: "https://commercepro.capcut.com/",
+						    description: "输入产品链接即可一键生成由AI生成的带货视频，例如数字人解说产品视频",
+						    tags: ["全部", "#线上工具", "#剪辑", "#AI", "#视频"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "即梦AI",
+						    link: "https://jimeng.jianying.com/?ref=ai-find.cn",
+						    description: "可以制作数字人口播，可以生成视频的工具，字节旗下免费AI.",
+						    tags: ["全部", "#线上工具", "#剪辑", "#AI", "#视频"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Ominicontrol产品图片生成场景图",
+						    link: "https://modelscope.cn/studios/AI-ModelScope/OminiControl",
+						    description: "可以将白底图一键生成带有场景的主图，电商人福音.",
+						    tags: ["全部", "#线上工具","#AI", "#电商", "#美工", "#设计"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "OEC",
+						    link: "https://oec.world/en",
+						    description: "一个工具可以随时提供你需要的全球贸易数据.",
+						    tags: ["全部", "#电商"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "AI工具集网址导航",
+						    link: "https://ai-bot.cn/lovable/",
+						    description: "这是一个专门记载AI工具的集合导航网站.",
+						    tags: ["全部", "#网址导航","#AI"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "lovable",
+						    link: "https://lovable.dev/",
+						    description: "这是一个可以用自然语言AI制作app和小程序的网站.",
+						    tags: ["全部", "#线上工具","#AI"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "medio.cool",
+						    link: "https://medio.cool/",
+						    description: "这是一个可以AI视频去水印，AI 一键翻译商品详情出图，跨境神器.",
+						    tags: ["全部", "#线上工具","#AI","#视频","#剪辑","#跨境","#美工","#设计"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "jaywcjlove",
+						    link: "https://github.com/jaywcjlove/reference",
+						    description: "这是一个开发者备忘录，包含了几乎所有编程语言的使用文档.",
+						    tags: ["全部", "#编程教程","#编程","#教程","#开发者"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "figma",
+						    link: "https://www.figma.com/",
+						    description: "这个网站提供了关于Figma的各种信息，包括产品功能、解决方案、社区活动、资源、定价以及最新动态等。Figma是一个协作式界面设计工具，广泛应用于设计、原型制作、用户体验设计、网页设计等领域.",
+						    tags: ["全部","#编程","#开发者"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "视频万能解析下载",
+						    link: "https://cobalt.tools/",
+						    description: "支持国外所有视频网站解析及下载，项目原地址：https://github.com/imputnet/cobalt.",
+						    tags: ["全部","#线上工具","#视频","#下载"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "github趋势榜",
+						    link: "https://github.com/trending",
+						    description: "github上的趋势榜单.",
+						    tags: ["全部","#github","#github趋势"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "github TOP200排行",
+						    link: "https://www.github-zh.com/top",
+						    description: "github TOP200排行.",
+						    tags: ["全部","#github","#github趋势"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "github中文排行榜",
+						    link: "https://www.github-zh.com/top-china",
+						    description: "github中文排行榜.",
+						    tags: ["全部","#github","#github趋势"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "AMZ1232",
+						    link: "https://amz123.com",
+						    description: "这是一个跨境电商的导航网站.",
+						    tags: ["全部", "#网址导航","#跨境"]
+						},
+						
+			            // 网址数据 卡片
+			            {
+			                title: "花猫导航",
+			                link: "https://huamao.vip/",
+			                description: "一个包罗万象的网址导航，推荐",
+			                tags: ["全部", "#网址导航"]
+			            },
 			
-			// 网址数据 卡片
-			{
-			    title: "哲风壁纸",
-			    link: "https://haowallpaper.com/wallpaperForum",
-			    description: "各种手机电脑高清壁纸免费下载。",
-			    tags: ["全部", "#壁纸"]
-			},
+			            // 网址数据 卡片
+			            {
+			                title: "pacogames",
+			                link: "https://www.pacogames.com/?ref=huamao.vip",
+			                description: "一个非常优秀的小游戏站点",
+			                tags: ["全部", "#游戏"]
+			            },
 			
-			// 网址数据 卡片
-			{
-			    title: "懒盘",
-			    link: "https://www.lzpanx.com/",
-			    description: "网盘资源搜索引擎。",
-			    tags: ["全部", "#搜索", "#网盘", "#资源"]
-			},
+			            // 网址数据 卡片
+			            {
+			                title: "360度看世界",
+			                link: "https://www.airpano.com/?ref=huamao.vip",
+			                description: "俄罗斯摄影团队创建的一个VR项目，让你足不出户看遍世界360度景观",
+			                tags: ["全部", "#360°", "#摄影"]
+			            },
 			
-			// 网址数据 卡片
-			{
-			    title: "懒人办公",
-			    link: "https://www.lanren.work/excel/",
-			    description: "各种文档表格模版下载。",
-			    tags: ["全部", "#办公资源"]
-			},
+			            // 网址数据 卡片
+			            {
+			                title: "小霸王其乐无穷",
+			                link: "https://www.yikm.net/?ref=huamao.vip",
+			                description: "一个在线街机模拟器",
+			                tags: ["全部", "#游戏"]
+			            },
 			
-			// 网址数据 卡片
-			{
-			    title: "美工吧",
-			    link: "https://www.meigong8.com/",
-			    description: "美工资源导航网站。",
-			    tags: ["全部", "#美工", "#PS", "#设计", "#素材"]
-			},
+			            // 网址数据 卡片
+			            {
+			                title: "假装更新系统网站",
+			                link: "https://updatefaker.com/?ref=huamao.vip",
+			                description: "一个可以假装电脑在更新的网站",
+			                tags: ["全部", "#恶搞"]
+			            },
 			
-			// 网址数据 卡片
-			{
-			    title: "淘大师",
-			    link: "www.taodashi.com",
-			    description: "美工资源导航网站。",
-			    tags: ["全部", "#美工", "#PS", "#设计", "#素材"]
-			},
+			            // 网址数据 卡片
+			            {
+			                title: "奇趣网站收藏家",
+			                link: "https://fuun.fun/?ref=huamao.vip",
+			                description: "一个专门收集奇趣的网站导航",
+			                tags: ["全部", "#恶搞"]
+			            },
 			
-			// 网址数据 卡片
-			{
-			    title: "网址导航",
-			    link: "https://nav.cnxiaobai.com/",
-			    description: "网址导航网站。",
-			    tags: ["全部", "#网址导航"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "网址导航",
-			    link: "https://home.designshidai.com/",
-			    description: "网址导航网站，很全面，很不错，非常推荐！。",
-			    tags: ["全部", "#网址导航"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "洛书小说",
-			    link: "https://www.luoshu1.com",
-			    description: "洛书小说是一个免费在线阅读电子小说的网站，网站界面清爽，而且暂无广告，阅读体验较佳。站内的小说资源每天都保持更新，所有小说均可免费在线阅读。",
-			    tags: ["全部", "#小说"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "菜鸟教程",
-			    link: "https://www.runoob.com/",
-			    description: "菜鸟教程(www.runoob.com)提供了编程的基础技术教程, 介绍了HTML、CSS、Javascript、Python,Java,Ruby,C,PHP , MySQL等各种编程语言的基础知识。 同时本站中也提供了大量的在线实例,通过实例。",
-			    tags: ["全部", "#编程教程", "#编程", "#教程","#开发者"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "腾讯QQ浏览器在线工具箱平台",
-			    link: "https://tool.browser.qq.com/",
-			    description: "腾讯QQ浏览器在线工具箱平台，提供证件照生成，表情包制作，PDF转换，文字提取，二维码生成，数据校验、照片修复、插件安装等在线服务，让你无忧生活",
-			    tags: ["全部", "#线上工具"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Convertio",
-			    link: "https://convertio.co/zh/",
-			    description: "一个支持文件拖拽即可完成转换的的网站，支持mp4、wmv、avi等罕见格式转换",
-			    tags: ["全部", "#线上工具", "#格式转换"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "UU在线工具",
-			    link: "https://uutool.cn/",
-			    description: "UU在线工具有很多免费的在线使用工具各种工具都有换",
-			    tags: ["全部", "#线上工具"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "PDF在线工具",
-			    link: "https://tools.pdf24.org/zh/",
-			    description: "PDF在线工具，超级齐全",
-			    tags: ["全部", "#线上工具", "#PDF"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "PDF在线工具2",
-			    link: "https://stirlingpdf.io/?lang=zh_CN/",
-			    description: "PDF在线工具，超级齐全，推荐",
-			    tags: ["全部", "#线上工具", "#PDF"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "PDF大文件转换在线工具",
-			    link: "https://stirlingpdf.io/?lang=zh_CN/",
-			    description: "免费的PDF编辑软件win+mac双端，提取码：9xq6",
-			    tags: ["全部", "#线上工具", "#PDF"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "PDFgear免费PDF编辑软件",
-			    link: "https://pan.baidu.com/s/1YWf6rn4o82qW-nHM69Qtvg",
-			    description: "PDF在线工具3",
-			    tags: ["全部", "#线上工具", "#PDF"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Design Notes",
-			    link: "https://designnotes.cn/",
-			    description: "全球优质免费资源库尽在Design Notes个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源",
-			    tags: ["全部", "#资源"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "前端资源工具",
-			    link: "https://geeknav.zeabur.app/?ref=designnotes.cn",
-			    description: "前端开发者必备探索最全资源和工具",
-			    tags: ["全部", "#资源", "#编程","#开发者"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "微工具",
-			    link: "https://www.wetools.com/?ref=designnotes.cn",
-			    description: "在线1600中工具",
-			    tags: ["全部", "#线上工具"]
-			},
-
-		        // 网址数据 卡片
-			{
-			    title: "aicolors.co",
-			    link: "https://aicolors.co/",
-			    description: "一个优秀的配色网站",
-			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Adobe Color CC",
-			    link: "https://color.adobe.com/",
-			    description: "高效配色工具，可以选择不同的颜色规则使用交互式色盘亮度以及不同的颜色来建立颜色，支持直接提取以及输入代码颜色超全的配色方案，还能通过色轮，搭配配色方案",
-			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Color space",
-			    link: "https://mycolor.space/",
-			    description: "只要输入主色调颜色号，一键就能生成优秀的配色方案，并且还提供了三种配色模式，调色板，渐变色，三色渐变",
-			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Color Hunt",
-			    link: "https://www.colorhunt.co/",
-			    description: "网站实时更新不同的配色方案，颜色清新，为配色爱好者提供社交网站，可以创建自己的调色板与大家分享",
-			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "中国色",
-			    link: "https://www.zhongguose.com/",
-			    description: "中国传统颜色配色网站",
-			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "千通彩色彩管理",
-			    link: "https://www.qtccolor.com/secaiku/",
-			    description: "一个识别颜色网站，可以输入主色号生成配色",
-			    tags: ["全部", "#线上工具", "#色彩搭配", "#美工", "#设计", "#PS"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "fmhy",
-			    link: "https://fmhy.net/",
-			    description: "王炸级的资源网站，最全免费资源集散地",
-			    tags: ["全部", "#资源"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "零度博客",
-			    link: "https://www.freedidi.com/",
-			    description: "各种看不到的教程和资源",
-			    tags: ["全部", "#资源", "#教程"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "魔塔社区",
-			    link: "https://modelscope.cn/home",
-			    description: "各种ai开源工具，海量开源模型数据，一键创建体验ai应用，尽在魔塔社区",
-			    tags: ["全部", "#AI", "#线上工具"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "背景移除工具",
-			    link: "https://modelscope.cn/studios/AI-ModelScope/background-removal",
-			    description: "一键移除背景",
-			    tags: ["全部", "#AI", "#线上工具"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "超好用的AI p图工具",
-			    link: "https://modelscope.cn/studios/ant-research/MagicQuill_demo",
-			    description: "AI局部重绘神器",
-			    tags: ["全部", "#AI", "#线上工具"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Design Notes",
-			    link: "https://designnotes.cn/",
-			    description: "全球优质免费资源库尽在Design Notes一个综合性的资源平台，满足您对多样化的需求。可在不同类别中轻松寻找您所需资源",
-			    tags: ["全部", "#AI", "#线上工具"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "最佳新开源替代品",
-			    link: "https://osssoftware.org/open-source-alternatives/",
-			    description: "一个可以找到最佳新开源替代品",
-			    tags: ["全部", "#资源"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "storytribea",
-			    link: "https://storytribeapp.com/",
-			    description: "插画素材工具，无论是做故事设计版还是产品动漫故事情节都可以",
-			    tags: ["全部", "#线上工具", "#美工", "#设计"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "CapCut Commerce Pro",
-			    link: "https://commercepro.capcut.com/",
-			    description: "输入产品链接即可一键生成由AI生成的带货视频，例如数字人解说产品视频",
-			    tags: ["全部", "#线上工具", "#剪辑", "#AI", "#视频"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "即梦AI",
-			    link: "https://jimeng.jianying.com/?ref=ai-find.cn",
-			    description: "可以制作数字人口播，可以生成视频的工具，字节旗下免费AI.",
-			    tags: ["全部", "#线上工具", "#剪辑", "#AI", "#视频"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Ominicontrol产品图片生成场景图",
-			    link: "https://modelscope.cn/studios/AI-ModelScope/OminiControl",
-			    description: "可以将白底图一键生成带有场景的主图，电商人福音.",
-			    tags: ["全部", "#线上工具","#AI", "#电商", "#美工", "#设计"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "OEC",
-			    link: "https://oec.world/en",
-			    description: "一个工具可以随时提供你需要的全球贸易数据.",
-			    tags: ["全部", "#电商"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "AI工具集网址导航",
-			    link: "https://ai-bot.cn/lovable/",
-			    description: "这是一个专门记载AI工具的集合导航网站.",
-			    tags: ["全部", "#网址导航","#AI"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "lovable",
-			    link: "https://lovable.dev/",
-			    description: "这是一个可以用自然语言AI制作app和小程序的网站.",
-			    tags: ["全部", "#线上工具","#AI"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "medio.cool",
-			    link: "https://medio.cool/",
-			    description: "这是一个可以AI视频去水印，AI 一键翻译商品详情出图，跨境神器.",
-			    tags: ["全部", "#线上工具","#AI","#视频","#剪辑","#跨境","#美工","#设计"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "jaywcjlove",
-			    link: "https://github.com/jaywcjlove/reference",
-			    description: "这是一个开发者备忘录，包含了几乎所有编程语言的使用文档.",
-			    tags: ["全部", "#编程教程","#编程","#教程","#开发者"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "figma",
-			    link: "https://www.figma.com/",
-			    description: "这个网站提供了关于Figma的各种信息，包括产品功能、解决方案、社区活动、资源、定价以及最新动态等。Figma是一个协作式界面设计工具，广泛应用于设计、原型制作、用户体验设计、网页设计等领域.",
-			    tags: ["全部","#编程","#开发者"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "视频万能解析下载",
-			    link: "https://cobalt.tools/",
-			    description: "支持国外所有视频网站解析及下载，项目原地址：https://github.com/imputnet/cobalt.",
-			    tags: ["全部","#线上工具","#视频","#下载"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "github趋势榜",
-			    link: "https://github.com/trending",
-			    description: "github上的趋势榜单.",
-			    tags: ["全部","#github","#github趋势"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "github TOP200排行",
-			    link: "https://www.github-zh.com/top",
-			    description: "github TOP200排行.",
-			    tags: ["全部","#github","#github趋势"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "github中文排行榜",
-			    link: "https://www.github-zh.com/top-china",
-			    description: "github中文排行榜.",
-			    tags: ["全部","#github","#github趋势"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "AMZ1232",
-			    link: "https://amz123.com",
-			    description: "这是一个跨境电商的导航网站.",
-			    tags: ["全部", "#网址导航","#跨境"]
-			},
-			
-            // 网址数据 卡片
-            {
-                title: "花猫导航",
-                link: "https://huamao.vip/",
-                description: "一个包罗万象的网址导航，推荐",
-                tags: ["全部", "#网址导航"]
-            },
-
-            // 网址数据 卡片
-            {
-                title: "pacogames",
-                link: "https://www.pacogames.com/?ref=huamao.vip",
-                description: "一个非常优秀的小游戏站点",
-                tags: ["全部", "#游戏"]
-            },
-
-            // 网址数据 卡片
-            {
-                title: "360度看世界",
-                link: "https://www.airpano.com/?ref=huamao.vip",
-                description: "俄罗斯摄影团队创建的一个VR项目，让你足不出户看遍世界360度景观",
-                tags: ["全部", "#360°", "#摄影"]
-            },
-
-            // 网址数据 卡片
-            {
-                title: "小霸王其乐无穷",
-                link: "https://www.yikm.net/?ref=huamao.vip",
-                description: "一个在线街机模拟器",
-                tags: ["全部", "#游戏"]
-            },
-
-            // 网址数据 卡片
-            {
-                title: "假装更新系统网站",
-                link: "https://updatefaker.com/?ref=huamao.vip",
-                description: "一个可以假装电脑在更新的网站",
-                tags: ["全部", "#恶搞"]
-            },
-
-            // 网址数据 卡片
-            {
-                title: "奇趣网站收藏家",
-                link: "https://fuun.fun/?ref=huamao.vip",
-                description: "一个专门收集奇趣的网站导航",
-                tags: ["全部", "#恶搞"]
-            },
-
-            // 网址数据 卡片
-            {
-                title: "高清壁纸网站",
-                link: "https://www.hdbz.top/?ref=huamao.vip",
-                description: "手机、电脑端高清壁纸网站",
-                tags: ["全部", "#壁纸"]
-            },
-
-
-            // 网址数据 卡片
-            {
-                title: "六月听书",
-                link: "http://www.6yueting.com/?ref=huamao.vip",
-                description: "听书网站",
-                tags: ["全部", "#有声小说", "#听书"]
-            },
-
-            // 网址数据 卡片
-			{
-			    title: "viggle",
-			    link: "https://www.viggle.ai/",
-			    description: "一个可控视频生成工具，允许用户通过文本、图片或视频剪辑创建3D动画视频。它提供了多种功能，包括将图片与视频融合、为静态角色添加动画效果，以及根据文本提示生成动画。Viggle AI还拥有一个Discord社区，用户可以在那里获取支持、分享创作并与其他用户互动",
-			    tags: ["全部", "#线上工具", "#AI"]
-			},
-
-            // 网址数据 卡片
-			{
-			    title: "Aconvert",
-			    link: "https://www.aconvert.com/cn/",
-			    description: "超级推荐-这个网站提供在线转换各类PDF、文档、电子书、图像、图标、视频、音频和压缩文件的服务。用户可以直接在网站上选择源文件和目标格式进行快速转换，无需进入目录。网站还提供了批量转换文件的功能",
-			    tags: ["全部", "#线上工具", "#转换"]
-			},
-
-            // 网址数据 卡片
-			{
-			    title: "Logo Galleria",
-			    link: "https://logogalleria.com/",
-			    description: "这个平台是一个基于人工智能的在线Logo生成器，提供免费的服务，用户可以在几分钟内创建定制化的Logo，无需任何设计技能。它支持多种语言，包括简体中文，并提供多种设计选项，如文本输入、主要符号选择、设计风格等。此外，Logo Galleria 还提供背景移除和SVG格式导出的功能，适用于初创企业、YouTube频道标志、企业品牌重塑等多种场景",
-			    tags: ["全部", "#线上工具", "#AI", "#logo"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "HEICX",
-			    link: "https://www.heicx.com/zh",
-			    description: "提供多种免费的在线HEIC文件工具，包括多格式转换器、照片查看器、EXIF编辑器等。支持将HEIC图像转换为JPG、JPEG、PNG、WebP、GIF等多种格式",
-			    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "OnlineConvertFree",
-			    link: "https://onlineconvertfree.com/zh/convert/heic/",
-			    description: "这个在线服务提供HEIC文件格式转换，可以免费将图片转换成HEIC格式，也支持从HEIC格式转换到其他格式",
-			    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "ImagesTool HEIC批量转换器",
-			    link: "https://to.imagestool.com/zh-CN/heic-converter",
-			    description: "这个工具在线免费将HEIC转换为其他图片格式。它还提供调整输出图片质量、大小、添加水印、裁剪等多种功能，支持导出29种图片格式",
-			    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "FreeConvert",
-			    link: "https://www.freeconvert.com/zh/heic-converter",
-			    description: "这个网站提供免费的HEIC转换器，可以将HEIC文件转换为其他格式",
-			    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "recraft",
-			    link: "https://www.recraft.ai/",
-			    description: "Recraft是一个提供AI图像生成和编辑工具的平台，它允许用户创建和编辑矢量艺术、图标、3D图像和插图等多种格式的图像。这个平台特别适合专业设计师使用，能够帮助他们快速生成高质量的设计作品，如标志、广告、角色设计等，每天有50张图片免费",
-			    tags: ["全部", "#线上工具", "#AI", "#AI图像生成"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "Hyper3D",
-			    link: "https://hyper3d.ai/",
-			    description: "这个网站提供了一个名为Rodin的AI 3D模型生成器，可以从文本或图像轻松生成3D模型，从而革新您的创意过程。此外，Hyper3D还提供了API文档，您可以在developer.hyper3d.ai找到更多关于Hyper3D API的功能和常见用例的信息",
-			    tags: ["全部", "#线上工具", "#AI", "#建模", "#3D"]
-			},
-			
-			// 网址数据 卡片
-			{
-			    title: "vercel v0 dev",
-			    link: "https://v0.dev/",
-			    description: "AI克隆一个网站，给我个链接就能克隆，基础版免费。是一个由 Vercel 团队开发的前端用户界面生成工具。它支持使用最新的 Next.js、React、Vue 和 Web 技术，能够运行 npm 包，并且可以在线运行和修改项目。这个工具的特点是可以通过简单的文本输入生成 React 组件代码，支持实时修改和可视化设计调整。它适用于不会写代码的新手以及想要使用 AI 提效的有经验的程序员",
-			    tags: ["全部", "#线上工具", "#AI", "#网站", "#代码"]
-			},
+			            // 网址数据 卡片
+			            {
+			                title: "高清壁纸网站",
+			                link: "https://www.hdbz.top/?ref=huamao.vip",
+			                description: "手机、电脑端高清壁纸网站",
+			                tags: ["全部", "#壁纸"]
+			            },
 			
 			
+			            // 网址数据 卡片
+			            {
+			                title: "六月听书",
+			                link: "http://www.6yueting.com/?ref=huamao.vip",
+			                description: "听书网站",
+			                tags: ["全部", "#有声小说", "#听书"]
+			            },
 			
+			            // 网址数据 卡片
+						{
+						    title: "viggle",
+						    link: "https://www.viggle.ai/",
+						    description: "一个可控视频生成工具，允许用户通过文本、图片或视频剪辑创建3D动画视频。它提供了多种功能，包括将图片与视频融合、为静态角色添加动画效果，以及根据文本提示生成动画。Viggle AI还拥有一个Discord社区，用户可以在那里获取支持、分享创作并与其他用户互动",
+						    tags: ["全部", "#线上工具", "#AI"]
+						},
+			
+			            // 网址数据 卡片
+						{
+						    title: "Aconvert",
+						    link: "https://www.aconvert.com/cn/",
+						    description: "超级推荐-这个网站提供在线转换各类PDF、文档、电子书、图像、图标、视频、音频和压缩文件的服务。用户可以直接在网站上选择源文件和目标格式进行快速转换，无需进入目录。网站还提供了批量转换文件的功能",
+						    tags: ["全部", "#线上工具", "#转换"]
+						},
+			
+			            // 网址数据 卡片
+						{
+						    title: "Logo Galleria",
+						    link: "https://logogalleria.com/",
+						    description: "这个平台是一个基于人工智能的在线Logo生成器，提供免费的服务，用户可以在几分钟内创建定制化的Logo，无需任何设计技能。它支持多种语言，包括简体中文，并提供多种设计选项，如文本输入、主要符号选择、设计风格等。此外，Logo Galleria 还提供背景移除和SVG格式导出的功能，适用于初创企业、YouTube频道标志、企业品牌重塑等多种场景",
+						    tags: ["全部", "#线上工具", "#AI", "#logo"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "HEICX",
+						    link: "https://www.heicx.com/zh",
+						    description: "提供多种免费的在线HEIC文件工具，包括多格式转换器、照片查看器、EXIF编辑器等。支持将HEIC图像转换为JPG、JPEG、PNG、WebP、GIF等多种格式",
+						    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "OnlineConvertFree",
+						    link: "https://onlineconvertfree.com/zh/convert/heic/",
+						    description: "这个在线服务提供HEIC文件格式转换，可以免费将图片转换成HEIC格式，也支持从HEIC格式转换到其他格式",
+						    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "ImagesTool HEIC批量转换器",
+						    link: "https://to.imagestool.com/zh-CN/heic-converter",
+						    description: "这个工具在线免费将HEIC转换为其他图片格式。它还提供调整输出图片质量、大小、添加水印、裁剪等多种功能，支持导出29种图片格式",
+						    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "FreeConvert",
+						    link: "https://www.freeconvert.com/zh/heic-converter",
+						    description: "这个网站提供免费的HEIC转换器，可以将HEIC文件转换为其他格式",
+						    tags: ["全部", "#线上工具", "#转换", "#图片转换"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "recraft",
+						    link: "https://www.recraft.ai/",
+						    description: "Recraft是一个提供AI图像生成和编辑工具的平台，它允许用户创建和编辑矢量艺术、图标、3D图像和插图等多种格式的图像。这个平台特别适合专业设计师使用，能够帮助他们快速生成高质量的设计作品，如标志、广告、角色设计等，每天有50张图片免费",
+						    tags: ["全部", "#线上工具", "#AI", "#AI图像生成"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "Hyper3D",
+						    link: "https://hyper3d.ai/",
+						    description: "这个网站提供了一个名为Rodin的AI 3D模型生成器，可以从文本或图像轻松生成3D模型，从而革新您的创意过程。此外，Hyper3D还提供了API文档，您可以在developer.hyper3d.ai找到更多关于Hyper3D API的功能和常见用例的信息",
+						    tags: ["全部", "#线上工具", "#AI", "#建模", "#3D"]
+						},
+						
+						// 网址数据 卡片
+						{
+						    title: "vercel v0 dev",
+						    link: "https://v0.dev/",
+						    description: "AI克隆一个网站，给我个链接就能克隆，基础版免费。是一个由 Vercel 团队开发的前端用户界面生成工具。它支持使用最新的 Next.js、React、Vue 和 Web 技术，能够运行 npm 包，并且可以在线运行和修改项目。这个工具的特点是可以通过简单的文本输入生成 React 组件代码，支持实时修改和可视化设计调整。它适用于不会写代码的新手以及想要使用 AI 提效的有经验的程序员",
+						    tags: ["全部", "#线上工具", "#AI", "#网站", "#代码"]
+						},
         ];
 		// 以上网址数据，模拟收藏的网址（你可以根据需求自行修改或扩展）
 		
@@ -946,6 +1003,31 @@
 			closeBtn.addEventListener('click', () => {
 			instructions.style.display = 'none'; // 隐藏说明部分
 			});
+			
+            // 创建粒子背景
+			function createParticles() {
+			    const particleContainer = document.getElementById('particle-container');
+			    const particlesCount = 100; // 粒子数量
+			
+			    for (let i = 0; i < particlesCount; i++) {
+			        const particle = document.createElement('div');
+			        particle.classList.add('particle');
+			
+			        // 随机设置粒子的位置
+			        particle.style.top = `${Math.random() * window.innerHeight}px`;
+			        particle.style.left = `${Math.random() * window.innerWidth}px`;
+			
+			        // 随机设置粒子的动画时间
+			        particle.style.animationDuration = `${Math.random() * 2 + 1}s`;
+			
+			        // 将粒子添加到容器中
+			        particleContainer.appendChild(particle);
+			    }
+			}
+			
+			// 调用粒子生成函数
+			createParticles();
+			
     </script>
 </body>
 </html>
